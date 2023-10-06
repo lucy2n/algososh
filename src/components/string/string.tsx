@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
@@ -6,22 +6,28 @@ import styles from './string.module.css'
 import { Circle } from "../ui/circle/circle";
 
 export const StringComponent: React.FC = () => {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState<string>('');
   const [arr, setArr] = useState<Array<string>>([])
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+  };
+
   const addWord = () => {
     setArr(input.split(''))
     console.log(arr)
   }
+
   return (
     <SolutionLayout title="Строка">
-      <div className={styles.main}> 
-        <Input value={input} onChange={(e) => setInput(e.currentTarget.value)} isLimitText={true} maxLength={11} extraClass={styles.mr} />
+      <form className={styles.main}> 
+        <Input type='text' value={input} onChange={onChange} isLimitText={true} maxLength={11} extraClass={styles.mr} />
         <Button text="Развернуть" onClick={addWord}/>
-      </div>
+      </form>
       <div className={styles.letters}>
         {
           arr.map((item) => 
-            <Circle extraClass={styles.letter} letter={item}></Circle>
+            <Circle letter={item}></Circle>
           ) 
         }
       </div>
