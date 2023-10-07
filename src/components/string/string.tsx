@@ -5,13 +5,14 @@ import { Button } from "../ui/button/button";
 import styles from './string.module.css'
 import { Circle } from "../ui/circle/circle";
 import { sleep, swap } from "../../utils/utils";
-import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
 
 export const StringComponent: React.FC = () => {
 
   const [input, setInput] = useState<string>('');
   const [arr, setArr] = useState<Array<{value: string, id: number, state: ElementStates}>>([])
+  const [buttonPressed, setButtonPressed] = useState<boolean>(false)
   let isFirstCall = useRef(true);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,6 +20,7 @@ export const StringComponent: React.FC = () => {
   };
 
   const addWord = () => {
+    setButtonPressed(true)
     isFirstCall.current = true
     setArr(input.split('').map((letter, index) => {
       return { id: index + 1, value: letter, state: ElementStates.Default }
@@ -51,13 +53,14 @@ export const StringComponent: React.FC = () => {
     }
     tempArr[start].state = ElementStates.Modified
     setArr([...tempArr]);
+    setButtonPressed(false)
   }
 
   return (
     <SolutionLayout title="Строка">
       <form className={styles.main}> 
         <Input type='text' value={input} onChange={onChange} isLimitText={true} maxLength={11} extraClass={styles.mr} />
-        <Button text="Развернуть" onClick={addWord}/>
+        <Button text="Развернуть" onClick={addWord} isLoader={buttonPressed} disabled={buttonPressed}/>
       </form>
       <div className={styles.letters}>
         { arr.map((item) => <Circle state={item.state} key={item.id} letter={item.value}/>) }

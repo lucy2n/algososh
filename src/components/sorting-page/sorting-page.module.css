@@ -4,7 +4,7 @@
     display: flex;
     width: 924px;
     justify-content: space-between;
-    margin-bottom: 384px;
+    margin-bottom: 5%;
 }
 
 .flex {
@@ -20,8 +20,12 @@
 }
 
 .diagram {
+    height: 340px;
     display: flex;
     margin: auto;
     justify-content: center;
     max-width: 986px;
+    align-items: end;
+    gap: 10px
+    
 }
