@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import styles from './fibonacci.module.css'
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { sleep } from "../../utils/utils";
 
 export const FibonacciPage: React.FC = () => {
   const [input, setInput] = useState<string>('');
@@ -15,13 +16,9 @@ export const FibonacciPage: React.FC = () => {
     setInput(e.target.value);
   };
 
-  async function sleep(millis: number) {
-    return new Promise((resolve) => setTimeout(resolve, millis));
-  }
-
   const getFibonacciNumbers = async (n: number) => {
+    setArr([]);
     if(1 <= n && n <= 19)  {
-      setArr([]);
       let tempArr: number[] = [0, 1];
       setArr(['1'])
       await sleep(SHORT_DELAY_IN_MS);
@@ -30,8 +27,6 @@ export const FibonacciPage: React.FC = () => {
         setArr(tempArr.slice(1).map((item) => item.toString()))
         await sleep(SHORT_DELAY_IN_MS);
       }
-    } else {
-      setArr([])
     }
     setButtonPressed(false)
   } 
