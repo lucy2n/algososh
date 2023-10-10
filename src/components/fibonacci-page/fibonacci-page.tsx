@@ -43,7 +43,7 @@ export const FibonacciPage: React.FC = () => {
         <Button text="Рассчитать" onClick={calculate} isLoader={buttonPressed} disabled={buttonPressed}/>
       </div>
       <div className={styles.letters}>
-        { arr.map((item, index) => <Circle index={index} letter={item}/>) }
+        { arr.map((item, index) => <Circle key={index} index={index} letter={item}/>) }
       </div>
     </SolutionLayout>
   );

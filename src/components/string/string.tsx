@@ -58,10 +58,10 @@ export const StringComponent: React.FC = () => {
 
   return (
     <SolutionLayout title="Строка">
-      <form className={styles.main}> 
+      <div className={styles.main}> 
         <Input type='text' value={input} onChange={onChange} isLimitText={true} maxLength={11} extraClass={styles.mr} />
         <Button text="Развернуть" onClick={addWord} isLoader={buttonPressed} disabled={buttonPressed}/>
-      </form>
+      </div>
       <div className={styles.letters}>
         { arr.map((item) => <Circle state={item.state} key={item.id} letter={item.value}/>) }
       </div>

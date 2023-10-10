@@ -1,5 +1,5 @@
 .main {
-    margin: 0 auto 50px;
+    margin: 0 auto 48px;
     width: 829px;
     display: flex;
     gap: 80px
@@ -11,7 +11,7 @@
 }
 
 .input {
-    width: 345px;
+    width: 377px;
 }
 
 .elements {
