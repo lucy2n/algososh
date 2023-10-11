@@ -20,8 +20,8 @@ type TLinkedListElement = {
 
 export const ListPage: React.FC = () => {
 
-  const [linkedList, setLinkedlist] = useState<LinkedList<TLinkedListElement>>(new LinkedList<TLinkedListElement>())
-  const [listElements, setListElements] = useState<TLinkedListElement[]>([]); // useMemo<Node<TLinkedListElement>[]>(() => { return linkedList.toArray() }, [])
+  const [linkedList] = useState<LinkedList<TLinkedListElement>>(new LinkedList<TLinkedListElement>())
+  const [listElements, setListElements] = useState<TLinkedListElement[]>([]); 
   const [valueInput, setValueInput] = useState<string>('');
   const [indexInput, setIndexInput] = useState<string>('');
 
