@@ -46,10 +46,9 @@ export const QueuePage: React.FC = () => {
   }
 
   const clear = () => {
+    queue.clear()
     setHeadIndex(0)
     setTailIndex(0)
-    queue.clear()
-    setShouldUpdate(!shouldUpdate)
   }
 
   return (

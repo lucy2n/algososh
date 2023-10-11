@@ -53,8 +53,10 @@ export const StringComponent: React.FC = () => {
       await sleep(SHORT_DELAY_IN_MS);
       setArr([...tempArr]);
     }
-    tempArr[start].state = ElementStates.Modified
-    setArr([...tempArr]);
+    if (tempArr.length !== 0) {
+      tempArr[start].state = ElementStates.Modified
+      setArr([...tempArr]);
+    }
     setButtonPressed(false)
   }
 
