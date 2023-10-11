@@ -12,13 +12,16 @@ export const FibonacciPage: React.FC = () => {
   const [arr, setArr] = useState<Array<string>>([])
   const [buttonPressed, setButtonPressed] = useState<boolean>(false)
 
+  const maxLenght = 19;
+  const minLength = 1;
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
+    setInput((e.target.value).trim());
   };
 
   const getFibonacciNumbers = async (n: number) => {
     setArr([]);
-    if(1 <= n && n <= 19)  {
+    if(minLength <= n && n <= maxLenght)  {
       let tempArr: number[] = [0, 1];
       setArr(['1'])
       await sleep(SHORT_DELAY_IN_MS);
@@ -39,8 +42,20 @@ export const FibonacciPage: React.FC = () => {
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
       <div className={styles.main}> 
-        <Input type='!text' value={input} onChange={onChange} isLimitText={true} max={19} extraClass={styles.mr} />
-        <Button text="Рассчитать" onClick={calculate} isLoader={buttonPressed} disabled={buttonPressed}/>
+        <Input 
+          type='!text' 
+          value={input} 
+          onChange={onChange} 
+          isLimitText={true} 
+          max={maxLenght} 
+          extraClass={styles.mr} 
+        />
+        <Button 
+          text="Рассчитать" 
+          onClick={calculate} 
+          isLoader={buttonPressed} 
+          disabled={input === '' || !/^\d+$/.test(input)}
+        />
       </div>
       <div className={styles.letters}>
         { arr.map((item, index) => <Circle key={index} index={index} letter={item}/>) }

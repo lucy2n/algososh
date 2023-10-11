@@ -4,7 +4,7 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import styles from './stack-page.module.css';
 import { ElementStates } from "../../types/element-states";
-import { Stack } from "./stack";
+import { Stack } from "./class-stack";
 import { Circle } from "../ui/circle/circle";
 import { sleep } from "../../utils/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
@@ -22,8 +22,10 @@ export const StackPage: React.FC = () => {
   const [stack, setStack ]= useState<Stack<TStackElement>>(new Stack<TStackElement>());
   const [shouldUpdate, setShouldUpdate] = useState<boolean>(false)
 
+  const maxLenght = 4;
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
+    setInput((e.target.value).trim());
   };
 
   const addElement = async () => {
@@ -62,11 +64,30 @@ export const StackPage: React.FC = () => {
     <SolutionLayout title="Стек">
       <div className={styles.main}>
         <div className={styles.stack}>
-        <Input value={input} extraClass={styles.input} type='text' isLimitText={true} maxLength={4} onChange={onChange} />
-        <Button text='Добавить' onClick={addElement} disabled={input === '' ? true : false }/>
-        <Button text='Удалить' onClick={deleteElement} disabled={stack.getElements().length === 0 ? true : false}/>
+        <Input 
+          value={input} 
+          extraClass={styles.input} 
+          type='text' 
+          isLimitText={true} 
+          maxLength={maxLenght} 
+          onChange={onChange} 
+        />
+        <Button 
+          text='Добавить' 
+          onClick={addElement} 
+          disabled={input === ''}
+        />
+        <Button 
+          text='Удалить' 
+          onClick={deleteElement} 
+          disabled={stack.getElements().length === 0}
+        />
         </div>
-      <Button text='Очистить' onClick={clear} disabled={stack.getElements().length === 0 ? true : false}/>
+      <Button 
+        text='Очистить' 
+        onClick={clear} 
+        disabled={stack.getElements().length === 0}
+      />
       </div>
       <div className={styles.elements}>
         { stack.getElements().map((item ) => <Circle head={item.id === (stack.peak() as TStackElement).id ? 'top' : ''} key={item.id} state={item.state} letter={item.value} index={item.index}/>) }

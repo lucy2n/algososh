@@ -15,8 +15,10 @@ export const StringComponent: React.FC = () => {
   const [buttonPressed, setButtonPressed] = useState<boolean>(false)
   let isFirstCall = useRef(true);
 
+  const maxLength = 11;
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
+    setInput((e.target.value).trim());
   };
 
   const addWord = () => {
@@ -59,8 +61,20 @@ export const StringComponent: React.FC = () => {
   return (
     <SolutionLayout title="Строка">
       <div className={styles.main}> 
-        <Input type='text' value={input} onChange={onChange} isLimitText={true} maxLength={11} extraClass={styles.mr} />
-        <Button text="Развернуть" onClick={addWord} isLoader={buttonPressed} disabled={buttonPressed}/>
+        <Input 
+          type='text' 
+          value={input} 
+          onChange={onChange} 
+          isLimitText={true} 
+          maxLength={maxLength}
+          extraClass={styles.mr} 
+        />  
+        <Button 
+          text="Развернуть" 
+          onClick={addWord} 
+          isLoader={buttonPressed} 
+          disabled={buttonPressed || input === ''}
+        />
       </div>
       <div className={styles.letters}>
         { arr.map((item) => <Circle state={item.state} key={item.id} letter={item.value}/>) }

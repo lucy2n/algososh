@@ -147,14 +147,42 @@ export const SortingPage: React.FC = () => {
     <SolutionLayout title="Сортировка массива">
         <div className={styles.main}>
           <div className={styles.flex}>
-            <RadioInput name="select" extraClass={styles.radio} label="Выбор" onChange={handleChange} checked={sortType === SortTypes.Select}/>
-            <RadioInput name="bubble" label="Пузырёк" onChange={handleChange} checked={sortType === SortTypes.Bubble}/>
+            <RadioInput 
+              name="select" 
+              extraClass={styles.radio} 
+              label="Выбор" 
+              onChange={handleChange} 
+              checked={sortType === SortTypes.Select}
+            />
+            <RadioInput 
+              name="bubble" 
+              label="Пузырёк" 
+              onChange={handleChange} 
+              checked={sortType === SortTypes.Bubble}
+            />
           </div>
           <div className={styles.flex}>
-            <Button extraClass={styles.button} text='По возрастанию' sorting={Direction.Ascending} onClick={sortIncrease} isLoader={buttonsState['increase'].isLoader} disabled={buttonsState['increase'].disabled} />
-            <Button isLoader={buttonsState['decrease'].isLoader} disabled={buttonsState['decrease'].disabled} text='По убыванию' sorting={Direction.Descending} onClick={sortDecrease}/>
+            <Button 
+              extraClass={styles.button} 
+              text='По возрастанию' 
+              sorting={Direction.Ascending} 
+              onClick={sortIncrease} 
+              isLoader={buttonsState['increase'].isLoader} 
+              disabled={buttonsState['increase'].disabled} 
+              />
+            <Button 
+              isLoader={buttonsState['decrease'].isLoader} 
+              disabled={buttonsState['decrease'].disabled} 
+              text='По убыванию' sorting={Direction.Descending} 
+              onClick={sortDecrease}
+            />
           </div>
-          <Button isLoader={buttonsState['newArrButton'].isLoader} disabled={buttonsState['newArrButton'].disabled}  text='Новый массив' onClick={generateRandomArr}/>
+          <Button 
+            isLoader={buttonsState['newArrButton'].isLoader} 
+            disabled={buttonsState['newArrButton'].disabled}  
+            text='Новый массив' 
+            onClick={generateRandomArr}
+          />
         </div>
         <div className={styles.diagram}>
           {arr.map((item) => 
