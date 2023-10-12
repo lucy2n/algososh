@@ -6,22 +6,22 @@ import { Circle } from "../ui/circle/circle";
 import styles from './fibonacci.module.css'
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { sleep } from "../../utils/utils";
+import { useForm } from "../../hooks/useForm";
 
 export const FibonacciPage: React.FC = () => {
-  const [input, setInput] = useState<string>('');
   const [arr, setArr] = useState<Array<string>>([])
   const [buttonPressed, setButtonPressed] = useState<boolean>(false)
 
-  const maxLenght = 19;
-  const minLength = 1;
+  const maxNumber = 19;
+  const minNumber = 1;
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput((e.target.value).trim());
-  };
+  const { values, handleChange, setValues } = useForm({
+    input: ''
+  });
 
   const getFibonacciNumbers = async (n: number) => {
     setArr([]);
-    if(minLength <= n && n <= maxLenght)  {
+    if(minNumber <= n && n <= maxNumber)  {
       let tempArr: number[] = [0, 1];
       setArr(['1'])
       await sleep(SHORT_DELAY_IN_MS);
@@ -36,25 +36,26 @@ export const FibonacciPage: React.FC = () => {
 
   const calculate = () => {
     setButtonPressed(true)
-    getFibonacciNumbers(+input)
+    getFibonacciNumbers(+values.input)
   }
   
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
       <div className={styles.main}> 
         <Input 
-          type='!text' 
-          value={input} 
-          onChange={onChange} 
+          name='input'
+          type='number' 
+          value={values.input} 
+          onChange={handleChange} 
           isLimitText={true} 
-          max={maxLenght} 
+          max={maxNumber} 
           extraClass={styles.mr} 
         />
         <Button 
           text="Рассчитать" 
           onClick={calculate} 
           isLoader={buttonPressed} 
-          disabled={input === '' || !/^\d+$/.test(input)}
+          disabled={values.input === '' || !/^\d+$/.test(values.input) || +values.input > 19}
         />
       </div>
       <div className={styles.letters}>

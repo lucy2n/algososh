@@ -104,7 +104,6 @@ export class LinkedList<T> implements ILinkedList<T> {
     while(curr && curr.next && curr.next.next) {
       curr = curr.next
     }
-    console.log(curr)
     if (curr && curr.next) {
       curr.next = null
       this.size--;
@@ -118,7 +117,6 @@ export class LinkedList<T> implements ILinkedList<T> {
     if (this.head === null) {
 
       this.head = node;
-      console.log("here", this.head)
     } else {
       current = this.head;
       while (current.next) {

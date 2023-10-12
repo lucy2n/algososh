@@ -55,7 +55,7 @@ export class Queue<T> implements IQueue<T> {
 
     getElements = (): (T | null)[]  => this.container;
 
-    isEmpty = () => this.length === 0;
+    isEmpty = () => this.container.filter(item => item !== null).length === 0;
 
     getHead = () => this.head % this.size
 

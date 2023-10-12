@@ -6,10 +6,10 @@ import styles from './list-page.module.css'
 import { Circle } from "../ui/circle/circle";
 import { ArrowIcon } from "../ui/icons/arrow-icon";
 import { LinkedList } from "./class-list-page";
-import { nanoid } from "nanoid";
 import { ElementStates } from "../../types/element-states";
 import { sleep } from "../../utils/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { useForm } from "../../hooks/useForm";
 
 type TLinkedListElement = {
   value: string;
@@ -22,9 +22,12 @@ export const ListPage: React.FC = () => {
 
   const [linkedList] = useState<LinkedList<TLinkedListElement>>(new LinkedList<TLinkedListElement>())
   const [listElements, setListElements] = useState<TLinkedListElement[]>([]); 
-  const [valueInput, setValueInput] = useState<string>('');
-  const [indexInput, setIndexInput] = useState<string>('');
 
+  const { values, handleChange, setValues } = useForm({
+    valueInput: '',
+    indexInput: ''
+  });
+  
   const maxLenght = 6;
   const maxNumber = 100;
   const inputMaxLength = 4;
@@ -59,14 +62,6 @@ export const ListPage: React.FC = () => {
     })
   }
 
-  const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValueInput((e.target.value).trim());
-  };
-
-  const onIndexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIndexInput((e.target.value).trim());
-  };
-
   useEffect(() => {
     for(let i = 0; i < maxLenght; i++) {
       const randValue = Math.floor(Math.random() * maxNumber)
@@ -86,10 +81,10 @@ export const ListPage: React.FC = () => {
       valueInput: {disabled: true},
       indexInput : {disabled: true}
     })
-    let element: TLinkedListElement = {value: valueInput, head: null, tail: null, state: ElementStates.Default}
+    let element: TLinkedListElement = {value: values.valueInput, head: null, tail: null, state: ElementStates.Default}
     let array = linkedList.toArray()
-    for(let i = 0; i <= +indexInput; i++)  {
-      array[i].value.head = (<Circle letter={valueInput} isSmall={true} state={ElementStates.Changing}/>)
+    for(let i = 0; i <= +values.indexInput; i++)  {
+      array[i].value.head = (<Circle letter={values.valueInput} isSmall={true} state={ElementStates.Changing}/>)
       setListElements(array.map(item => item.value))
 
       await sleep(SHORT_DELAY_IN_MS)
@@ -98,16 +93,19 @@ export const ListPage: React.FC = () => {
       setListElements(array.map(item => item.value))
     }
     await sleep(SHORT_DELAY_IN_MS)
-    linkedList.insertAt(element, +indexInput)
+    linkedList.insertAt(element, +values.indexInput)
     array = linkedList.toArray()
     array.map(item => item.value.state = ElementStates.Default)
-    array[+indexInput].value.state = ElementStates.Modified
+    array[+values.indexInput].value.state = ElementStates.Modified
     setListElements(array.map(item => item.value))
     await sleep(SHORT_DELAY_IN_MS)
-    array[+indexInput].value.state = ElementStates.Default
+    array[+values.indexInput].value.state = ElementStates.Default
     setListElements(array.map(item => item.value))
     setButtonsDefault()
-    setIndexInput('')
+    setValues({
+      valueInput: '',
+      indexInput: ''
+    })
   }
 
   const deleteElementByIndex = async () => {
@@ -122,27 +120,30 @@ export const ListPage: React.FC = () => {
       indexInput : {disabled: true}
     })
     let array = linkedList.toArray()
-    for(let i = 0; i <= +indexInput; i++)  {
+    for(let i = 0; i <= +values.indexInput; i++)  {
       await sleep(SHORT_DELAY_IN_MS)
       array[i].value.tail = null
       array[i].value.state = ElementStates.Changing
       setListElements(array.map(item => item.value))
     }
-    array[+indexInput].value.tail = (<Circle letter={array[+indexInput].value.value} isSmall={true} state={ElementStates.Changing}/>)
+    array[+values.indexInput].value.tail = (<Circle letter={array[+values.indexInput].value.value} isSmall={true} state={ElementStates.Changing}/>)
     await sleep(SHORT_DELAY_IN_MS)
-    array[+indexInput].value.value = '' 
-    array[+indexInput].value.state = ElementStates.Default
+    array[+values.indexInput].value.value = '' 
+    array[+values.indexInput].value.state = ElementStates.Default
     setListElements(array.map(item => item.value))
     await sleep(SHORT_DELAY_IN_MS)
-    linkedList.deleteAt(+indexInput)
+    linkedList.deleteAt(+values.indexInput)
     array = linkedList.toArray()
     array.map(item => item.value.state = ElementStates.Default)
     setListElements(array.map(item => item.value))
     await sleep(SHORT_DELAY_IN_MS)
-    array[+indexInput].value.state = ElementStates.Default
+    array[+values.indexInput].value.state = ElementStates.Default
     setListElements(array.map(item => item.value))
     setButtonsDefault();
-    setIndexInput('')
+    setValues({
+      ...values,
+      indexInput: ''
+    })
   }
 
   const addElementHead = async () => {
@@ -156,9 +157,9 @@ export const ListPage: React.FC = () => {
       valueInput: {disabled: true},
       indexInput : {disabled: true}
     })
-    let element: TLinkedListElement = {value: valueInput, head: null, tail: null, state: ElementStates.Default}
+    let element: TLinkedListElement = {value: values.valueInput, head: null, tail: null, state: ElementStates.Default}
     let array = linkedList.toArray()
-    array[0].value.head = (<Circle letter={valueInput} isSmall={true} state={ElementStates.Changing}/>)
+    array[0].value.head = (<Circle letter={values.valueInput} isSmall={true} state={ElementStates.Changing}/>)
     setListElements(array.map(item => item.value))
     await sleep(SHORT_DELAY_IN_MS)
 
@@ -171,7 +172,10 @@ export const ListPage: React.FC = () => {
     array[0].value.state = ElementStates.Default;
     setListElements(array.map(item => item.value))
     setButtonsDefault()
-    setValueInput('')
+    setValues({
+      ...values,
+      valueInput: ''
+    })
   }
 
   const addElementTail = async () => {
@@ -185,9 +189,9 @@ export const ListPage: React.FC = () => {
       valueInput: {disabled: true},
       indexInput : {disabled: true}
     })
-    let element: TLinkedListElement = {value: valueInput, head: null, tail: null, state: ElementStates.Modified}
+    let element: TLinkedListElement = {value: values.valueInput, head: null, tail: null, state: ElementStates.Modified}
     let array = linkedList.toArray()
-    array[array.length - 1].value.head = (<Circle letter={valueInput} isSmall={true} state={ElementStates.Changing}/>)
+    array[array.length - 1].value.head = (<Circle letter={values.valueInput} isSmall={true} state={ElementStates.Changing}/>)
     setListElements(array.map(item => item.value))
     await sleep(SHORT_DELAY_IN_MS)
     array[array.length - 1].value.head = null
@@ -198,7 +202,10 @@ export const ListPage: React.FC = () => {
     array[array.length - 1].value.state = ElementStates.Default
     setListElements(array.map(item => item.value))
     setButtonsDefault()
-    setValueInput('')
+    setValues({
+      ...values,
+      valueInput: ''
+    })
   }
 
   const deleteElementHead = async () => {
@@ -221,7 +228,6 @@ export const ListPage: React.FC = () => {
     linkedList.deleteHead()
     setShouldUpdate(!shouldUpdate)
     setButtonsDefault()
-    setValueInput('')
   }
 
   const deleteElementTail = async () => {
@@ -243,7 +249,6 @@ export const ListPage: React.FC = () => {
     linkedList.deleteTail()
     setShouldUpdate(!shouldUpdate)
     setButtonsDefault()
-    setValueInput('')
   }
 
   return (
@@ -252,8 +257,9 @@ export const ListPage: React.FC = () => {
         <div className={styles.column}>
           <Input 
             placeholder = "Введите значение" 
-            value={valueInput} 
-            onChange={onValueChange} 
+            name='valueInput'
+            value={values.valueInput} 
+            onChange={handleChange} 
             extraClass={styles.input} 
             type='text' isLimitText={true} 
             maxLength={inputMaxLength} 
@@ -264,14 +270,14 @@ export const ListPage: React.FC = () => {
             onClick={addElementHead} 
             text='Добавить в head' 
             isLoader={buttonsState.addHead.isLoader} 
-            disabled={valueInput === '' ? true : false || buttonsState.addHead.disabled}
+            disabled={values.valueInput === '' || buttonsState.addHead.disabled}
           />
           <Button
             extraClass={styles.buttonsValue}
             onClick={addElementTail} 
             text='Добавить в tail' 
             isLoader={buttonsState.addTail.isLoader} 
-            disabled={valueInput === '' ? true : false || buttonsState.addTail.disabled}
+            disabled={values.valueInput === '' || buttonsState.addTail.disabled}
           />
           <Button 
             extraClass={styles.buttonsValue} 
@@ -290,25 +296,26 @@ export const ListPage: React.FC = () => {
         </div>
         <div className={styles.column}>
           <Input 
+            name='indexInput'
             placeholder = "Введите индекс" 
-            value={indexInput} 
-            onChange={onIndexChange} 
+            value={values.indexInput} 
+            onChange={handleChange} 
             extraClass={styles.input} 
-            type='text' 
+            type='number' 
             disabled={buttonsState.indexInput.disabled} 
           />
           <Button 
             extraClass={styles.buttonsIndex}
             onClick={addElementByIndex} 
             isLoader={buttonsState.addAt.isLoader} 
-            disabled={buttonsState.addAt.disabled || indexInput === '' || valueInput === '' || !/^\d+$/.test(indexInput)} 
+            disabled={buttonsState.addAt.disabled || values.indexInput === '' || values.valueInput === '' || !/^\d+$/.test(values.indexInput) || +values.indexInput > linkedList.toArray().length - 1} 
             text='Добавить по индексу'
           />
           <Button 
             extraClass={styles.buttonsIndex}
             onClick={deleteElementByIndex} 
             isLoader={buttonsState.deleteAt.isLoader} 
-            disabled={buttonsState.deleteAt.disabled || indexInput === '' || !/^\d+$/.test(indexInput)} 
+            disabled={buttonsState.deleteAt.disabled || values.indexInput === '' || !/^\d+$/.test(values.indexInput) || +values.indexInput > linkedList.toArray().length - 1} 
             text='Удалить по индексу'
           />
         </div>
@@ -325,7 +332,7 @@ export const ListPage: React.FC = () => {
                 letter={item.value.value}
                 state={item.value.state}
                 />
-              { item.next !== null && <ArrowIcon key={nanoid()}/> }
+              { item.next !== null && <ArrowIcon/> }
             </div>
           )
         }
