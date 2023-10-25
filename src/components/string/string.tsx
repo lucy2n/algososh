@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
@@ -63,6 +63,7 @@ export const StringComponent: React.FC = () => {
     <SolutionLayout title="Строка">
       <div className={styles.main}> 
         <Input 
+          data-testid="input"
           name='input'
           type='text' 
           value={values.input} 
@@ -72,14 +73,20 @@ export const StringComponent: React.FC = () => {
           extraClass={styles.mr} 
         />  
         <Button 
+          data-testid="reverse_button"
           text="Развернуть" 
           onClick={addWord} 
           isLoader={buttonPressed} 
           disabled={buttonPressed || values.input === ''}
         />
       </div>
-      <div className={styles.letters}>
-        { arr.map((item) => <Circle state={item.state} key={item.id} letter={item.value}/>) }
+      <div data-testid='circles' className={styles.letters}>
+        { arr.map((item) => 
+          <div data-testid='circle' key={item.id}>
+            <Circle state={item.state} letter={item.value}/>
+          </div>
+          ) 
+        }
       </div>
     </SolutionLayout>
   );
