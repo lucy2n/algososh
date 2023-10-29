@@ -24,7 +24,7 @@ function App() {
             <FibonacciPage />
           </Route>
           <Route path="/sorting">
-            <SortingPage />
+            <SortingPage/>
           </Route>
           <Route path="/stack">
             <StackPage />

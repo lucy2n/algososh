@@ -60,8 +60,8 @@ export const StringComponent: React.FC = () => {
   }
 
   return (
-    <SolutionLayout title="Строка">
-      <div className={styles.main}> 
+    <SolutionLayout title="Строка" >
+      <div className={styles.main} > 
         <Input 
           data-testid="input"
           name='input'
