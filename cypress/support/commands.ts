@@ -25,8 +25,7 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
-// declare global {
-//   namespace Cypress {
+// declare namespace Cypress {
 //     interface Chainable {
 //       login(email: string, password: string): Chainable<void>
 //       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
@@ -34,4 +33,8 @@
 //       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
 //     }
 //   }
-// }
+
+// Cypress.Commands.add("addStackNode", (text: string) => {
+//     cy.get('[data-testid="input"]').type(text);
+//     cy.get('[data-testid="add__button"]').should('not.be.disabled').click();
+// })

@@ -96,6 +96,7 @@ export const StackPage: React.FC = () => {
       <div className={styles.main}>
         <div className={styles.stack}>
         <Input 
+          data-testid="input"
           name='input'
           value={values.input} 
           extraClass={styles.input} 
@@ -106,11 +107,13 @@ export const StackPage: React.FC = () => {
         />
         <Button 
           text='Добавить' 
+          data-testid="add__button"
           onClick={addElement} 
           disabled={values.input === '' || buttonsState.addElement.disabled}
           isLoader={buttonsState.addElement.isLoader}
         />
         <Button 
+          data-testid="delete__button"
           text='Удалить' 
           onClick={deleteElement} 
           disabled={stack.getElements().length === 0 || buttonsState.deleteElement.disabled}
@@ -118,12 +121,13 @@ export const StackPage: React.FC = () => {
 
         />
         </div>
-      <Button 
-        text='Очистить' 
-        onClick={clear} 
-        disabled={stack.getElements().length === 0 || buttonsState.clear.disabled}
-        isLoader={buttonsState.clear.isLoader}
-      />
+        <Button 
+          data-testid="clean__button"
+          text='Очистить' 
+          onClick={clear} 
+          disabled={stack.getElements().length === 0 || buttonsState.clear.disabled}
+          isLoader={buttonsState.clear.isLoader}
+        />
       </div>
       <div className={styles.elements}>
         { stack.getElements().map((item ) => <Circle head={item.id === (stack.peak() as TStackElement).id ? 'top' : ''} key={item.id} state={item.state} letter={item.value} index={item.index}/>) }
