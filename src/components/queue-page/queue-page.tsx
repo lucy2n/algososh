@@ -91,6 +91,7 @@ export const QueuePage: React.FC = () => {
       <div className={styles.main}>
         <div className={styles.stack}>
         <Input 
+          data-testid="input"
           name='input'
           value={values.input} 
           extraClass={styles.input} 
@@ -100,12 +101,14 @@ export const QueuePage: React.FC = () => {
           onChange={handleChange}
         />
         <Button 
+          data-testid="add__button"
           text='Добавить' 
           onClick={enqueue} 
           disabled={values.input === '' || buttonsState.addElement.disabled}
           isLoader={buttonsState.addElement.isLoader}
         />
         <Button 
+          data-testid="delete__button"
           text='Удалить' 
           onClick={dequeue} 
           disabled={queue.isEmpty() || buttonsState.deleteElement.disabled}
@@ -113,6 +116,7 @@ export const QueuePage: React.FC = () => {
         />
         </div>
       <Button 
+        data-testid="clean__button"
         text='Очистить' 
         onClick={clear} 
         disabled={queue.isEmpty() || buttonsState.clear.disabled}
