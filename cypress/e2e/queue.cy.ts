@@ -1,4 +1,5 @@
 import { urlTest } from '../../src/constants/testConstants';
+import { defaultColor, changingColor } from '../../src/constants/testConstants';
 
 describe('queue works correctly', function() {
     beforeEach(function() {
@@ -14,18 +15,7 @@ describe('queue works correctly', function() {
 
     it('element adds correctly' , function() {
         const text = '10';
-        cy.get('[data-testid="input"]').type(text)
-        cy.get('[data-testid="add__button"]').should('not.be.disabled').click()
-        cy.get('div[class*="circle_circle"]')
-            .eq(0)
-            .should('have.css', 'border-color', 'rgb(210, 82, 225)')
-
-        cy.wait(100);
-
-        cy.get('div[class*="circle_circle"]')
-            .eq(0)
-            .should('have.css', 'border-color', 'rgb(0, 50, 255)')
-            .should('have.text', '10')
+        cy.addQueueNode(text, 0)
 
         cy.get('div[class*="circle_head"]')
             .eq(0)
@@ -36,18 +26,7 @@ describe('queue works correctly', function() {
             .contains('tail')
 
         const newtext = '9';
-        cy.get('[data-testid="input"]').type(newtext)
-        cy.get('[data-testid="add__button"]').should('not.be.disabled').click()
-        cy.get('div[class*="circle_circle"]')
-            .eq(1)
-            .should('have.css', 'border-color', 'rgb(210, 82, 225)')
-
-        cy.wait(100);
-
-        cy.get('div[class*="circle_circle"]')
-            .eq(1)
-            .should('have.css', 'border-color', 'rgb(0, 50, 255)')
-            .should('have.text', '9')
+        cy.addQueueNode(newtext, 1)
 
         cy.get('div[class*="circle_tail"]')
             .eq(0)
@@ -61,18 +40,7 @@ describe('queue works correctly', function() {
 
     it('element delete correctly' , function() {
         const text = '10';
-        cy.get('[data-testid="input"]').type(text)
-        cy.get('[data-testid="add__button"]').should('not.be.disabled').click()
-        cy.get('div[class*="circle_circle"]')
-            .eq(0)
-            .should('have.css', 'border-color', 'rgb(210, 82, 225)')
-
-        cy.wait(100);
-
-        cy.get('div[class*="circle_circle"]')
-            .eq(0)
-            .should('have.css', 'border-color', 'rgb(0, 50, 255)')
-            .should('have.text', '10')
+        cy.addQueueNode(text, 0)
 
         cy.get('div[class*="circle_head"]')
             .eq(0)
@@ -83,18 +51,7 @@ describe('queue works correctly', function() {
             .contains('tail')
 
         const newtext = '9';
-        cy.get('[data-testid="input"]').type(newtext)
-        cy.get('[data-testid="add__button"]').should('not.be.disabled').click()
-        cy.get('div[class*="circle_circle"]')
-            .eq(1)
-            .should('have.css', 'border-color', 'rgb(210, 82, 225)')
-
-        cy.wait(100);
-
-        cy.get('div[class*="circle_circle"]')
-            .eq(1)
-            .should('have.css', 'border-color', 'rgb(0, 50, 255)')
-            .should('have.text', '9')
+        cy.addQueueNode(newtext, 1)
 
         cy.get('div[class*="circle_tail"]')
             .eq(0)
@@ -108,7 +65,7 @@ describe('queue works correctly', function() {
         cy.get('[data-testid="delete__button"]').should('not.be.disabled').click()
         cy.get('div[class*="circle_circle"]')
             .eq(0)
-            .should('have.css', 'border-color', 'rgb(210, 82, 225)')
+            .should('have.css', 'border-color', changingColor)
 
         cy.get('div[class*="circle_circle"]')
             .eq(0)
@@ -122,18 +79,7 @@ describe('queue works correctly', function() {
 
     it('cleaning delete correctly' , function() {
         const text = '10';
-        cy.get('[data-testid="input"]').type(text)
-        cy.get('[data-testid="add__button"]').should('not.be.disabled').click()
-        cy.get('div[class*="circle_circle"]')
-            .eq(0)
-            .should('have.css', 'border-color', 'rgb(210, 82, 225)')
-
-        cy.wait(100);
-
-        cy.get('div[class*="circle_circle"]')
-            .eq(0)
-            .should('have.css', 'border-color', 'rgb(0, 50, 255)')
-            .should('have.text', '10')
+        cy.addQueueNode(text, 0)
 
         cy.get('div[class*="circle_head"]')
             .eq(0)
@@ -144,18 +90,7 @@ describe('queue works correctly', function() {
             .contains('tail')
 
         const newtext = '9';
-        cy.get('[data-testid="input"]').type(newtext)
-        cy.get('[data-testid="add__button"]').should('not.be.disabled').click()
-        cy.get('div[class*="circle_circle"]')
-            .eq(1)
-            .should('have.css', 'border-color', 'rgb(210, 82, 225)')
-
-        cy.wait(100);
-
-        cy.get('div[class*="circle_circle"]')
-            .eq(1)
-            .should('have.css', 'border-color', 'rgb(0, 50, 255)')
-            .should('have.text', '9')
+        cy.addQueueNode(newtext, 1)
 
         cy.get('div[class*="circle_tail"]')
             .eq(0)
@@ -169,13 +104,12 @@ describe('queue works correctly', function() {
         cy.get('[data-testid="delete__button"]').should('not.be.disabled').click()
         cy.get('div[class*="circle_circle"]')
             .eq(0)
-            .should('have.css', 'border-color', 'rgb(210, 82, 225)')
+            .should('have.css', 'border-color', changingColor)
 
         cy.get('div[class*="circle_circle"]')
             .eq(0)
             .should('contain', '')
 
-        
         cy.get('div[class*="circle_head"]')
             .eq(1)
             .contains('head')
@@ -183,6 +117,5 @@ describe('queue works correctly', function() {
         cy.get('[data-testid="clean__button"]').should('not.be.disabled').click()
         cy.get('div[class*="circle"]')
             .should('contain', '')
-
     });
 })
