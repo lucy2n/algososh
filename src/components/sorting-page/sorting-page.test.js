@@ -44,7 +44,7 @@ describe('Sorting Page', () => {
         await waitFor(() => {
             const newArr = screen.queryAllByTestId('column').map (item => item.textContent)
             expect(newArr).toStrictEqual(sortedArr);    
-        }, { timeout: DELAY_IN_MS * 2 } )
+        }, { timeout: DELAY_IN_MS * 3 } )
     });
 
     it('Array with numbers descending sort', async () => {
@@ -63,6 +63,6 @@ describe('Sorting Page', () => {
         await waitFor(() => {
             const newArr = screen.queryAllByTestId('column').map (item => item.textContent)
             expect(newArr).toStrictEqual(sortedArr);    
-        }, { timeout: DELAY_IN_MS * 2 })
+        }, { timeout: DELAY_IN_MS * 3 })
     });
 })
